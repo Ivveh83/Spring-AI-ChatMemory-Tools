@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 public class OpenAiChatServiceImpl implements OpenAIChatService {
 
     private final OpenAiChatModel openAiChatModel;
-    private ChatMemory chatMemory;
+    private final ChatMemory chatMemory;
+
+
 
     @Autowired
-    public OpenAiChatServiceImpl(OpenAiChatModel openAiChatModel,  ChatMemory chatMemory) {
+    public OpenAiChatServiceImpl(OpenAiChatModel openAiChatModel, ChatMemory chatMemory) {
         this.openAiChatModel = openAiChatModel;
         this.chatMemory = chatMemory;
     }

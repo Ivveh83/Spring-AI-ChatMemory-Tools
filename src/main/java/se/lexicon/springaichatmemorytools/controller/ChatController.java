@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import se.lexicon.springaichatmemorytools.service.ChatService;
 import se.lexicon.springaichatmemorytools.service.OpenAIChatService;
 
 @RestController
@@ -15,10 +16,14 @@ import se.lexicon.springaichatmemorytools.service.OpenAIChatService;
 @Validated
 public class ChatController {
 
-    OpenAIChatService openAiChatService;
+    private final OpenAIChatService openAiChatService;
+    private final ChatService chatService;
 
-    public ChatController(OpenAIChatService openAiChatService) {
+
+    public ChatController(OpenAIChatService openAiChatService,  ChatService chatService) {
+
         this.openAiChatService = openAiChatService;
+        this.chatService = chatService;
     }
 
     @GetMapping("/message")
@@ -46,6 +51,22 @@ public class ChatController {
 
     ) {
         return openAiChatService.chatWithMemory(question,  conversationId);
+    }
+
+    @GetMapping("/message/new-memory")
+    public String askWithNewMemory(
+            @RequestParam(value = "question")
+            @NotNull(message = "question Can not be null")
+            @NotBlank(message = "question Can not be blank")
+            @Size(max = 200, message = "Question can not exceed 200 chars")
+            String question,
+            @RequestParam(value = "conversationId")
+            @NotNull(message = "conversationId Can not be null")
+            @NotBlank(message = "conversationId Can not be blank")
+            String conversationId
+
+    ) {
+        return chatService.chatMemory(question, conversationId);
     }
 
 }
