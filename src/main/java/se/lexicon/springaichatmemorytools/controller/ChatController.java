@@ -66,7 +66,7 @@ public class ChatController {
             String conversationId
 
     ) {
-        return chatService.chatMemory(question, conversationId);
+        return chatService.chatWithMemory(question, conversationId);
     }
 
 }
